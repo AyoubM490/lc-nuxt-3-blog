@@ -5,10 +5,10 @@
 // })
 import {ofetch} from "ofetch";
 
-const {posts} = await ofetch("https://lc-nuxt-3-blog-laravel.test/api/posts", {
+const posts = await ofetch("https://lc-nuxt-3-blog-laravel.test/api/posts", {
     retry: 3,
     retryDelay: 500
-}).then(res => res.json()).catch(err => console.log(err))
+}).catch(err => console.log(err))
 </script>
 
 <template>

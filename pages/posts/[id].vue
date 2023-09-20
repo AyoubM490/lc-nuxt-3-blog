@@ -1,12 +1,15 @@
 <script setup lang="ts">
+
+import {ofetch} from "ofetch";
+import {format} from 'date-fns'
+
 const title = useState('title')
 const route = useRoute()
 
-const {data: post} = await useFetch(`/api/posts/${route.params.id}`, {
-    baseURL: 'https://lc-nuxt-3-blog-laravel.test'
-})
-
-console.log(post)
+const post = await ofetch(`https://lc-nuxt-3-blog-laravel.test/api/posts/${route.params.id}`, {
+    retry: 3,
+    retryDelay: 500
+}).catch(err => console.log(err))
 
 </script>
 
@@ -17,7 +20,7 @@ console.log(post)
       <NuxtLink :to="`/posts/${$route.params.id}`">{{ post?.title }}</NuxtLink>
     </h3>
     <div class="post-meta text-gray-700 flex items-center space-x-2">
-      <div>{{ post?.created_at }}</div>
+      <div>{{ format(new Date(post?.created_at), 'MMMM dd, yyyy') }}</div>
       <div>&middot;</div>
       <div>{{ post?.user.name }}</div>
     </div>

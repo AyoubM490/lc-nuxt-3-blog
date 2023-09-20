@@ -1,4 +1,6 @@
 <script setup>
+import {ofetch} from "ofetch";
+
 const title = ref('')
 const body = ref('')
 const isLoading = ref(false)
@@ -7,14 +9,14 @@ const router = useRouter()
 async function createPost() {
     isLoading.value = true
     try {
-        const {data: post} = await $fetch(`https://lc-nuxt-3-blog-laravel.test/api/post`, {
+        const post = await ofetch(`https://lc-nuxt-3-blog-laravel.test/api/post`, {
             method: 'POST',
             body: {
                 title: title.value,
                 body: body.value,
             },
         })
-        console.log(post)
+        console.log(process.env.NODE_ENV, "here")
         isLoading.value = false
         title.value = ''
         body.value = ''
