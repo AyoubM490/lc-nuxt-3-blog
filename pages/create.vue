@@ -6,24 +6,33 @@ const body = ref('')
 const isLoading = ref(false)
 const errors = ref([])
 const router = useRouter()
+
+const { $apiFetch } = useNuxtApp()
+
 async function createPost() {
     isLoading.value = true
     try {
-        const post = await ofetch(`https://lc-nuxt-3-blog-laravel.test/api/post`, {
+        // const post = await ofetch(`https://lc-nuxt-3-blog-laravel.test/api/post`, {
+        //     method: 'POST',
+        //     body: {
+        //         title: title.value,
+        //         body: body.value,
+        //     },
+        // })
+        const post = await $apiFetch('/api/post', {
             method: 'POST',
             body: {
                 title: title.value,
-                body: body.value,
-            },
+                body: body.value
+            }
         })
-        console.log(process.env.NODE_ENV, "here")
         isLoading.value = false
         title.value = ''
         body.value = ''
         alert('creating post')
         router.push('/')
     } catch (err) {
-        console.log(err.data)
+        console.log(err)
         errors.value = Object.values(err.data.errors).flat()
         isLoading.value = false
     }
@@ -34,7 +43,7 @@ async function createPost() {
     <div class="container mx-auto w-1/2 py-8">
         <ul
             v-if="errors.length > 0"
-            className="mb-4 list-disc list-inside text-sm text-red-600"
+            class="mb-4 list-disc list-inside text-sm text-red-600"
         >
             <li v-for="(error, index) in errors" :key="index">
                 {{ error }}

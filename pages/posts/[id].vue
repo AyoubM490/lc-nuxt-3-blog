@@ -6,10 +6,14 @@ import {format} from 'date-fns'
 const title = useState('title')
 const route = useRoute()
 
-const post = await ofetch(`https://lc-nuxt-3-blog-laravel.test/api/posts/${route.params.id}`, {
-    retry: 3,
-    retryDelay: 500
-}).catch(err => console.log(err))
+const {$apiFetch} = useNuxtApp()
+
+// const post = await ofetch(`https://lc-nuxt-3-blog-laravel.test/api/posts/${route.params.id}`, {
+//     retry: 10,
+//     retryDelay: 500
+// }).catch(err => console.log(err))
+
+const post = await $apiFetch(`/api/posts/${route.params.id}`).catch(err => console.log(err))
 
 </script>
 

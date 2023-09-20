@@ -1,14 +1,9 @@
 <script setup lang="ts">
 
-// let {data: posts, status, error} = await useFetch(() => '/api/posts', {
-//     baseURL: 'https://lc-nuxt-3-blog-laravel.test',
-// })
-import {ofetch} from "ofetch";
+const { $apiFetch } = useNuxtApp()
 
-const posts = await ofetch("https://lc-nuxt-3-blog-laravel.test/api/posts", {
-    retry: 3,
-    retryDelay: 500
-}).catch(err => console.log(err))
+const posts = await $apiFetch('/api/posts').catch(err => console.log(err))
+
 </script>
 
 <template>

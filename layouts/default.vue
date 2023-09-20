@@ -1,5 +1,21 @@
 <script setup lang="ts">
+import {ofetch} from "ofetch";
+
 const title = useState('title', () => 'Nuxt 3 Blog');
+const {$apiFetch} = useNuxtApp()
+
+async function logout() {
+    try {
+        await $apiFetch('/logout', {
+            method: 'POST'
+        })
+    } catch (err: any) {
+        console.log(err.data)
+    } finally {
+        window.location.pathname = '/'
+    }
+}
+
 </script>
 
 <template>
@@ -12,18 +28,14 @@ const title = useState('title', () => 'Nuxt 3 Blog');
                 </div>
                 <div>
                     <ul class="flex space-x-12">
-                        <li>
-                            <NuxtLink to="/">Home</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/about">About</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/create">Create</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/contact">Contact</NuxtLink>
-                        </li>
+                        <li><NuxtLink to="/">Home</NuxtLink></li>
+                        <li><NuxtLink to="/login">Login</NuxtLink></li>
+                        <li><NuxtLink to="/register">Register</NuxtLink></li>
+                        <li><NuxtLink to="/my-info">My Info</NuxtLink></li>
+                        <li><NuxtLink to="/create">Create</NuxtLink></li>
+                        <li><NuxtLink to="/about">About</NuxtLink></li>
+                        <li><NuxtLink to="/contact">Contact</NuxtLink></li>
+                        <li><a href="#" @click.prevent="logout">Logout</a></li>
                     </ul>
                 </div>
             </div>
