@@ -1,5 +1,10 @@
 <script setup>
 import {ofetch} from "ofetch";
+import {useAuth} from "~/composables/useAuth.js";
+
+definePageMeta({
+    middleware: ["guest"]
+})
 
 const title = useState('title')
 const router = useRouter()
@@ -27,6 +32,12 @@ async function register() {
                 password_confirmation: passwordConfirm.value,
             },
         })
+
+        const user = await $apiFetch('/api/user')
+
+        const { setUser } = useAuth()
+        setUser(user.name)
+
         alert('Registered')
         // router.push('/my-info')
         window.location.pathname = '/my-info'

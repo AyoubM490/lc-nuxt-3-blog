@@ -1,6 +1,10 @@
 <script setup>
 import {ofetch} from "ofetch";
 
+definePageMeta({
+    middleware: ["auth"]
+})
+
 const { $apiFetch } = useNuxtApp()
 
 const title = useState('title')

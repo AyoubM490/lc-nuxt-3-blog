@@ -1,5 +1,9 @@
 <script setup>
 import {ofetch} from "ofetch";
+import {useAuth} from "~/composables/useAuth.js";
+definePageMeta({
+    middleware: ["guest"]
+})
 
 const {$apiFetch} = useNuxtApp()
 
@@ -24,7 +28,12 @@ async function login() {
                 password: password.value
             }
         })
+
+        const user = await $apiFetch('/api/user').catch(err => console.log(err))
+
         // router.push('/my-info')
+        const { setUser } = useAuth();
+        setUser(user.name)
         window.location.pathname = '/my-info'
     } catch (err) {
         console.log(err.data)

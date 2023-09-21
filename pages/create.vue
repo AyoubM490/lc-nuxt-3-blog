@@ -1,6 +1,10 @@
 <script setup>
 import {ofetch} from "ofetch";
 
+definePageMeta({
+    middleware: ["auth"]
+})
+
 const title = ref('')
 const body = ref('')
 const isLoading = ref(false)
@@ -12,13 +16,6 @@ const { $apiFetch } = useNuxtApp()
 async function createPost() {
     isLoading.value = true
     try {
-        // const post = await ofetch(`https://lc-nuxt-3-blog-laravel.test/api/post`, {
-        //     method: 'POST',
-        //     body: {
-        //         title: title.value,
-        //         body: body.value,
-        //     },
-        // })
         const post = await $apiFetch('/api/post', {
             method: 'POST',
             body: {
